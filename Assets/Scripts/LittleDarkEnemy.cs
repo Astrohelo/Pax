@@ -92,7 +92,7 @@ public class LittleDarkEnemy : MonoBehaviour
     }
 
     private bool playerDetected(){
-        if (player.transform.position.x > LeftEnd && player.transform.position.x < RightEnd ){
+        if (player.transform.position.x > LeftEnd && player.transform.position.x < RightEnd && transform.position.y-player.transform.position.y> -2 &&transform.position.y-player.transform.position.y < 2 ){
             return true;
         }
         return false;

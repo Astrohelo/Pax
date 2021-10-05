@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private Animator anim;
+    [SerializeField] private CapsuleCollider2D coll;
     [Header("Movement Variables")]
+    [SerializeField] private int lives = 3;
     [SerializeField] private float _movementAcceleration = 70f;
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 50f;
+    [SerializeField] public LayerMask ground;
     private float _horizontalDirection;
     private float _verticalDirection;
     private bool _changingDirection => (rb.velocity.x > 0f && _horizontalDirection < 0f) || (rb.velocity.x < 0f && _horizontalDirection > 0f);
@@ -32,26 +36,15 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKey(KeyCode.A)) {
-            rb.velocity = new Vector2(-7, rb.velocity.y);
-            transform.localScale = new Vector2(-0.42f, 0.42f);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity = new Vector2(7, rb.velocity.y);
-            transform.localScale = new Vector2(0.42f, 0.42f);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 17f);
-        }*/
-
+        
         _horizontalDirection = Input.GetAxisRaw("Horizontal");
         _verticalDirection = Input.GetAxisRaw("Vertical");
         if (Input.GetKeyDown("space")) _jumpBufferCounter = _jumpBufferLength;
@@ -63,6 +56,35 @@ public class PlayerController : MonoBehaviour
         if (_horizontalDirection > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if((rb.velocity.x > 0.05f || rb.velocity.x < -0.05f || _changingDirection)&& coll.IsTouchingLayers(ground)){
+                anim.SetBool("running", true);
+            anim.SetBool("idle", false);
+            anim.SetBool("jumping",false);
+            anim.SetBool("falling",false);
+        }
+        else if (rb.velocity.y < -0.1f&& coll.IsTouchingLayers(ground)==false ){
+            anim.SetBool("running", false);
+            anim.SetBool("idle", false);
+            anim.SetBool("jumping",false);
+                anim.SetBool("falling",true);
+        }
+        else if (rb.velocity.y* rb.velocity.y > 0.1f && coll.IsTouchingLayers(ground)==false){
+            anim.SetBool("running", false);
+            anim.SetBool("idle", false);
+                anim.SetBool("jumping",true);
+            anim.SetBool("falling",false);
+        }
+        else{
+            if(coll.IsTouchingLayers(ground)){
+                anim.SetBool("running", false);
+                    anim.SetBool("idle", true);
+                anim.SetBool("jumping",false);
+                anim.SetBool("falling",false);
+            }
+            
+           
         }
         
     }
@@ -84,19 +106,20 @@ public class PlayerController : MonoBehaviour
         if (_canJump)
         {
             Jump(Vector2.up);
+            
         }
+      
         
     }
 
-        private void MoveCharacter()
-    {
+        private void MoveCharacter(){
         rb.AddForce(new Vector2(_horizontalDirection, 0f) * _movementAcceleration);
 
         if (Mathf.Abs(rb.velocity.x) > _maxMoveSpeed)
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * _maxMoveSpeed, rb.velocity.y);
     }
-    private void ApplyGroundLinearDrag()
-    {
+
+    private void ApplyGroundLinearDrag(){
         if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection)
         {
             rb.drag = _groundLinearDrag;
