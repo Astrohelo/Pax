@@ -16,7 +16,7 @@ public class LittleDarkEnemy : MonoBehaviour
 
 
     public Transform attackPoint;
-    public float attackRange = 0.8f;
+    public float attackRange = 2.4f;
     public LayerMask playerLayer;
     // Start is called before the first frame update
     
