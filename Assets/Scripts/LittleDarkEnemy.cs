@@ -8,7 +8,7 @@ public class LittleDarkEnemy : MonoBehaviour
     [SerializeField] private float LeftEnd;
     [SerializeField] private float RightEnd;
     [SerializeField] private float speed ;
-    [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask playerLayer;
     private Collider2D coll;
     [SerializeField] private PlayerController player;
     private Rigidbody2D rb;
@@ -16,8 +16,7 @@ public class LittleDarkEnemy : MonoBehaviour
 
 
     public Transform attackPoint;
-    public float attackRange = 2.4f;
-    public LayerMask playerLayer;
+    public float attackRange = 2.2f;
     // Start is called before the first frame update
     
     private  void Start()
@@ -34,23 +33,27 @@ public class LittleDarkEnemy : MonoBehaviour
         if(playerDetected()){
             
             if(playerIsInRange()){
+                
                 Move();
+                if (rb.velocity.x > .1 || rb.velocity.x < -.1)
+                {
+                    anim.SetBool("idle", false);
+                    anim.SetBool("attack", false);
+                    anim.SetBool("running", true);
+                }
             }
             else{
                  rb.velocity = new Vector2(0, 0);
                 anim.SetBool("idle", false);
                 anim.SetBool("attack", true);
                 anim.SetBool("running", false);
+                
                 Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
+                //hitPlayer.GetComponent<PlayerController>().decreaseLife();
                 
             }
 
-            if (rb.velocity.x > .1 || rb.velocity.x < -.1)
-            {
-                anim.SetBool("idle", false);
-                anim.SetBool("attack", false);
-                anim.SetBool("running", true);
-            }
+            
 
         }
         else{
@@ -64,7 +67,7 @@ public class LittleDarkEnemy : MonoBehaviour
     private void Move()
     {
         
-
+    
         if (FacingLeft())
         {
             

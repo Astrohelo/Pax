@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CapsuleCollider2D coll;
     [Header("Movement Variables")]
     [SerializeField] private int lives = 3;
+    [SerializeField] private Text livesText ;
+    
     [SerializeField] private float _movementAcceleration = 70f;
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 50f;
@@ -32,6 +35,9 @@ public class PlayerController : MonoBehaviour
     private float _jumpBufferCounter;
     private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 );
     private bool _isJumping = false;
+
+    //sebezhetetlenség
+    private bool invincible=false;
 
     // Start is called before the first frame update
     void Start()
@@ -112,12 +118,45 @@ public class PlayerController : MonoBehaviour
         
     }
 
-        private void MoveCharacter(){
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.tag =="Slime"){
+            decreaseLife();
+        }
+    }
+
+    private void MoveCharacter(){
         rb.AddForce(new Vector2(_horizontalDirection, 0f) * _movementAcceleration);
 
         if (Mathf.Abs(rb.velocity.x) > _maxMoveSpeed)
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * _maxMoveSpeed, rb.velocity.y);
     }
+
+    public void decreaseLife(){
+        if (!invincible)
+        {
+                lives--;
+                if(lives==0){
+                    //respawnolom ebben a poziban ez csak hard coded most
+                    transform.position = new Vector2(-34.86f,2);
+                    lives=3;
+                }
+                livesText.text=lives.ToString();
+                //átlátszó lesz
+                GetComponent<SpriteRenderer> ().color= new Color (1,1,1,0.6f);
+                invincible = true;
+                Invoke("resetInvulnerability", 2);
+            
+        }
+        
+    }
+
+    private void resetInvulnerability()
+        {
+            GetComponent<SpriteRenderer> ().color= new Color (1,1,1,1);
+            invincible = false;
+        }
+
 
     private void ApplyGroundLinearDrag(){
         if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection)
