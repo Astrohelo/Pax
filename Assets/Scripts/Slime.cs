@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slime : Enemy
+public class Slime : MonoBehaviour
 {
 
-    [SerializeField] private float LeftEnd;
-    [SerializeField] private float RightEnd;
-    [SerializeField] private float speed;
+    [SerializeField] private float leftEnd;
+    [SerializeField] private float rightEnd;
+    [SerializeField] private LayerMask ground;
+    [SerializeField] private float jumpLength = 10f;
+    [SerializeField] private float jumpHeigth = 15f;
 
+    private bool facingLeft = true;
+
+    private Collider2D coll;
     private Rigidbody2D rb;
-    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
     }
 
 
@@ -27,35 +31,52 @@ public class Slime : Enemy
         Move();
     }
 
-    private bool FacingLeft()
-    {
-        if (transform.position.x< 0.1f)
-        {
-            return true;
-        }
-        return false;
-    }
 
     private void Move()
     {
-
-
-        if (FacingLeft())
+        if (facingLeft)
         {
+            if (transform.position.x > leftEnd)
+            {
+                if (transform.localScale.x != 1)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
 
-            transform.localScale = new Vector3(1, 1);
+                if (coll.IsTouchingLayers(ground))
+                {
+                    rb.velocity = new Vector2(-jumpLength, jumpHeigth);
+                }
 
-            rb.velocity = new Vector2(speed, 0);
+            }
+            else
+            {
 
+                facingLeft = false;
 
+            }
         }
         else
         {
+            if (transform.position.x < rightEnd)
+            {
+                if (transform.localScale.x != -1)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
 
-            transform.localScale = new Vector3(-1, 1);
+                if (coll.IsTouchingLayers(ground))
+                {
+                    rb.velocity = new Vector2(jumpLength, jumpHeigth);
+                }
 
-            rb.velocity = new Vector2(-speed, 0);
+            }
+            else
+            {
 
+                facingLeft = true;
+
+            }
         }
     }
 }
