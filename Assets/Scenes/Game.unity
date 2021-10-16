@@ -16872,8 +16872,8 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 128
-  jumpLength: 5
-  jumpHeigth: 7
+  jumpLength: 7
+  jumpHeigth: 10
 --- !u!61 &415363740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17229,8 +17229,8 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 128
-  jumpLength: 5
-  jumpHeigth: 7
+  jumpLength: 7
+  jumpHeigth: 10
 --- !u!61 &576747051
 BoxCollider2D:
   m_ObjectHideFlags: 0

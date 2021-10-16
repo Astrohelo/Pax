@@ -33,8 +33,12 @@ public class PlayerController : MonoBehaviour
     private int _extraJumpsValue;
     private float _hangTimeCounter;
     private float _jumpBufferCounter;
-    private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 );
+    private bool _canJump => _jumpBufferCounter > 0f && (_hangTimeCounter > 0f || _extraJumpsValue > 0 ) && coyoteTimeCounter>0.0f;
     private bool _isJumping = false;
+
+    private float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
+
 
     //sebezhetetlenség
     private bool invincible=false;
@@ -53,7 +57,11 @@ public class PlayerController : MonoBehaviour
         
         _horizontalDirection = Input.GetAxisRaw("Horizontal");
         _verticalDirection = Input.GetAxisRaw("Vertical");
-        if (Input.GetKeyDown("space")) _jumpBufferCounter = _jumpBufferLength;
+        if (Input.GetKeyDown("space")) {
+            _jumpBufferCounter = _jumpBufferLength;
+            
+
+        }
         else _jumpBufferCounter -= Time.deltaTime;
         if (_horizontalDirection < 0)
         {
@@ -81,6 +89,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("idle", false);
                 anim.SetBool("jumping",true);
             anim.SetBool("falling",false);
+            coyoteTimeCounter = 0f;
         }
         else{
             if(coll.IsTouchingLayers(ground)){
@@ -89,10 +98,14 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("jumping",false);
                 anim.SetBool("falling",false);
             }
-            
-           
         }
-        
+
+        if(coll.IsTouchingLayers(ground)){
+            coyoteTimeCounter = coyoteTime;
+        }
+        else{
+            coyoteTimeCounter -= Time.deltaTime; 
+        }
     }
     private void FixedUpdate()
     {
