@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem particles;
+
     private Rigidbody2D rb;
     private Animator anim;
     [SerializeField] private CapsuleCollider2D coll;
@@ -210,7 +212,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump(Vector2 direction)
     {
-      
+        CreateParticles();
         ApplyAirLinearDrag();
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(direction * _jumpForce, ForceMode2D.Impulse);
@@ -218,6 +220,13 @@ public class PlayerController : MonoBehaviour
         _jumpBufferCounter = 0f;
         _isJumping = true;
     }
+
+    //Particles at the feet of the character
+    private void CreateParticles()
+    {
+        particles.Play();
+    }
+
 
 
 }
