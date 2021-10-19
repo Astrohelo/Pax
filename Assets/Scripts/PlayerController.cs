@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
     public void decreaseLife(){
         if (!invincible)
         {
+                SoundManager.PlaySound("playerHurt");
                 lives--;
                 if(lives==0){
                     //respawnolom ebben a poziban ez csak hard coded most
@@ -213,6 +214,7 @@ public class PlayerController : MonoBehaviour
     private void Jump(Vector2 direction)
     {
         CreateParticles();
+        SoundManager.PlaySound("jump");
         ApplyAirLinearDrag();
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(direction * _jumpForce, ForceMode2D.Impulse);

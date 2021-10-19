@@ -293,6 +293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79105436}
+  - component: {fileID: 79105437}
   m_Layer: 5
   m_Name: OptionsMenu
   m_TagString: Untagged
@@ -323,6 +324,19 @@ RectTransform:
   m_AnchoredPosition: {x: 5.9233, y: -42.9439}
   m_SizeDelta: {x: 816.7192, y: 695.2915}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &79105437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79105435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93867d2fd8041994e9f85b982b7f2d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: ceb2eed6e40978c45a69b6394abec5ac, type: 2}
 --- !u!1 &211629261
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +584,7 @@ GameObject:
   - component: {fileID: 682445913}
   - component: {fileID: 682445914}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: VolumeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -642,13 +656,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 2072010506}
   m_HandleRect: {fileID: 1827322218}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 79105437}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &715638527
 GameObject:
   m_ObjectHideFlags: 0
