@@ -45,6 +45,18 @@ public class PlayerController : MonoBehaviour
     //sebezhetetlenség
     private bool invincible=false;
 
+
+    [Header("Attack Variables")]
+
+    private bool combatEnabled=true;
+     private float lastInputTime;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private float inputTimer;
+
+    private bool isAttacking=false;
+    private bool gotInputForAttack;
+    [SerializeField]public Transform attackPoint;
+    [SerializeField]private float attackRange;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,48 +77,62 @@ public class PlayerController : MonoBehaviour
 
         }
         else _jumpBufferCounter -= Time.deltaTime;
-        if (_horizontalDirection < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        if (_horizontalDirection > 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-
-        if((rb.velocity.x > 0.05f || rb.velocity.x < -0.05f || _changingDirection)&& coll.IsTouchingLayers(ground)){
-                anim.SetBool("running", true);
-            anim.SetBool("idle", false);
-            anim.SetBool("jumping",false);
-            anim.SetBool("falling",false);
-        }
-        else if (rb.velocity.y < -0.1f&& coll.IsTouchingLayers(ground)==false ){
-            anim.SetBool("running", false);
-            anim.SetBool("idle", false);
-            anim.SetBool("jumping",false);
-                anim.SetBool("falling",true);
-        }
-        else if (rb.velocity.y* rb.velocity.y > 0.1f && coll.IsTouchingLayers(ground)==false){
-            anim.SetBool("running", false);
-            anim.SetBool("idle", false);
-                anim.SetBool("jumping",true);
-            anim.SetBool("falling",false);
-            coyoteTimeCounter = 0f;
-        }
-        else{
-            if(coll.IsTouchingLayers(ground)){
-                anim.SetBool("running", false);
-                    anim.SetBool("idle", true);
-                anim.SetBool("jumping",false);
-                anim.SetBool("falling",false);
+        if(Input.GetMouseButtonDown(0)){
+            if(combatEnabled){
+                //attempt combat
+                gotInputForAttack= true;
+                lastInputTime = Time.time;
             }
         }
+        CheckAttacks();
+        if(!isAttacking){
+            if (_horizontalDirection < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            if (_horizontalDirection > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
 
-        if(coll.IsTouchingLayers(ground)){
-            coyoteTimeCounter = coyoteTime;
-        }
-        else{
-            coyoteTimeCounter -= Time.deltaTime; 
+            if((rb.velocity.x > 0.05f || rb.velocity.x < -0.05f || _changingDirection)&& coll.IsTouchingLayers(ground)){
+                    anim.SetBool("running", true);
+                anim.SetBool("idle", false);
+                anim.SetBool("jumping",false);
+                anim.SetBool("falling",false);
+                anim.SetBool("attacking",false);
+            }
+            else if (rb.velocity.y < -0.1f&& coll.IsTouchingLayers(ground)==false ){
+                anim.SetBool("running", false);
+                anim.SetBool("idle", false);
+                anim.SetBool("jumping",false);
+                    anim.SetBool("falling",true);
+                anim.SetBool("attacking",false);
+            }
+            else if (rb.velocity.y* rb.velocity.y > 0.1f && coll.IsTouchingLayers(ground)==false){
+                anim.SetBool("running", false);
+                anim.SetBool("idle", false);
+                    anim.SetBool("jumping",true);
+                anim.SetBool("falling",false);
+                 anim.SetBool("attacking",false);
+                coyoteTimeCounter = 0f;
+            }
+            else{
+                if(coll.IsTouchingLayers(ground)){
+                    anim.SetBool("running", false);
+                        anim.SetBool("idle", true);
+                    anim.SetBool("jumping",false);
+                    anim.SetBool("falling",false);
+                    anim.SetBool("attacking",false);
+                }
+            }
+
+            if(coll.IsTouchingLayers(ground)){
+                coyoteTimeCounter = coyoteTime;
+            }
+            else{
+                coyoteTimeCounter -= Time.deltaTime; 
+            }
         }
     }
     private void FixedUpdate()
@@ -229,6 +255,42 @@ public class PlayerController : MonoBehaviour
         particles.Play();
     }
 
+
+    //// ATTACK FUNCTIONS
+    private void Attack(){
+        Collider2D[] detectedEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        foreach( Collider2D enemy in detectedEnemies) {
+            var script = enemy.gameObject.GetComponent<Enemy>();
+            script.gotHit();
+        }
+    }
+     void OnDrawGizmosSelected(){
+        if(attackPoint== null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+private void CheckAttacks(){
+    if(gotInputForAttack){
+        //perform attack
+        if(!isAttacking){
+            isAttacking=true;
+            anim.SetBool("running", false);
+            anim.SetBool("idle", false);
+            anim.SetBool("jumping",false);
+            anim.SetBool("falling",false);
+            anim.SetBool("attacking",true);
+        }
+    }
+    if(Time.time >= lastInputTime+ inputTimer){
+        gotInputForAttack=false;
+    }
+}
+    private void attackEnded(){
+        isAttacking=false;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }

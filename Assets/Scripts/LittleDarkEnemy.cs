@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LittleDarkEnemy : MonoBehaviour
+public class LittleDarkEnemy : Enemy
 {
     // Start is called before the first frame update
     [SerializeField] private float LeftEnd;
@@ -11,16 +11,19 @@ public class LittleDarkEnemy : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private Collider2D coll;
     [SerializeField] private PlayerController player;
+    private bool CurrentlyAttacking = false;
     private Rigidbody2D rb;
     private Animator anim;
 
 
+    [SerializeField] private int concreteHealth;
     public Transform attackPoint;
-    public float attackRange = 2.2f;
+    [SerializeField] private float attackRange;
     // Start is called before the first frame update
     
     private  void Start()
     {
+        health=concreteHealth;
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -34,7 +37,10 @@ public class LittleDarkEnemy : MonoBehaviour
             
             if(playerIsInRange()){
                 
-                Move();
+                if(!CurrentlyAttacking){
+                    Move();
+                }
+                
                 if (rb.velocity.x > .1 || rb.velocity.x < -.1)
                 {
                     anim.SetBool("idle", false);
@@ -48,8 +54,7 @@ public class LittleDarkEnemy : MonoBehaviour
                 anim.SetBool("attack", true);
                 anim.SetBool("running", false);
                 
-                Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
-                //hitPlayer.GetComponent<PlayerController>().decreaseLife();
+                
                 
             }
 
@@ -107,6 +112,15 @@ public class LittleDarkEnemy : MonoBehaviour
         return true;
     }
 
+    private void Attack(){
+        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
+        if(hitPlayer!=null)
+            hitPlayer.GetComponent<PlayerController>().decreaseLife();
+    }
+
+    private void setAttack(){
+        CurrentlyAttacking = !CurrentlyAttacking;
+    }
     void OnDrawGizmosSelected(){
         if(attackPoint== null)
             return;

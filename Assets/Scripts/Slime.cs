@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slime : MonoBehaviour
+public class Slime : Enemy
 {
 
     [SerializeField] private float leftEnd;
@@ -15,10 +15,12 @@ public class Slime : MonoBehaviour
 
     private Collider2D coll;
     private Rigidbody2D rb;
+    [SerializeField] private int concreteHealth;
 
     // Start is called before the first frame update
     void Start()
     {
+        health=concreteHealth;
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
     }
@@ -79,6 +81,8 @@ public class Slime : MonoBehaviour
             }
         }
     }
+
+    
 }
 
 
