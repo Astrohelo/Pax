@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
         }
         else _jumpBufferCounter -= Time.deltaTime;
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonDown(0)&&PlayerPrefs.GetInt("timeIsPaused")==1){
             if(combatEnabled){
                 //attempt combat
                 gotInputForAttack= true;
