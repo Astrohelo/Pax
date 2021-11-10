@@ -112,9 +112,9 @@ public class PlayerController : MonoBehaviour
             else if (rb.velocity.y* rb.velocity.y > 0.1f && coll.IsTouchingLayers(ground)==false){
                 anim.SetBool("running", false);
                 anim.SetBool("idle", false);
-                    anim.SetBool("jumping",true);
+                anim.SetBool("jumping",true);
                 anim.SetBool("falling",false);
-                 anim.SetBool("attacking",false);
+                anim.SetBool("attacking",false);
                 coyoteTimeCounter = 0f;
             }
             else{
