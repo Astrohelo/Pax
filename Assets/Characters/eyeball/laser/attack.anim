@@ -21,19 +21,19 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: ebf32e6913dcc5041a01999bcc04f43b, type: 3}
-    - time: 0.15
+    - time: 0.06666667
       value: {fileID: 21300000, guid: e22f9847e48143040b3063e4a0dd74d8, type: 3}
-    - time: 0.3
+    - time: 0.11666667
       value: {fileID: 21300000, guid: cdce73b6d226d5d449b819d20caebbb9, type: 3}
-    - time: 0.45
+    - time: 0.18333334
       value: {fileID: 21300000, guid: f913b21c11866d24da20c189054b4362, type: 3}
-    - time: 0.6
+    - time: 0.26666668
       value: {fileID: 21300000, guid: 549700f4aee8af5418ec0ad60184ee36, type: 3}
-    - time: 0.75
+    - time: 0.41666666
       value: {fileID: 21300000, guid: 822c66fba38016b46939978477c5b1ee, type: 3}
-    - time: 0.9
+    - time: 0.56666666
       value: {fileID: 21300000, guid: dfaf97549abee094b901694fe8c61c09, type: 3}
-    - time: 1.0333333
+    - time: 0.6333333
       value: {fileID: 21300000, guid: dfaf97549abee094b901694fe8c61c09, type: 3}
     attribute: m_Sprite
     path: 
@@ -67,7 +67,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.05
+    m_StopTime: 0.65
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -86,4 +86,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.26666668
+    functionName: hitPlayer
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6333333
+    functionName: turnOffAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
