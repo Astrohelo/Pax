@@ -10,6 +10,7 @@ public class LoadGame : MonoBehaviour
    
     void OnEnable(){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            System.Console.WriteLine("hello");
     }
+
+    
 }
