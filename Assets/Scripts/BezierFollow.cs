@@ -18,6 +18,8 @@ public class BezierFollow : MonoBehaviour
 
     private bool coroutineAllowed;
 
+    public GameObject fallingGrass;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +38,14 @@ public class BezierFollow : MonoBehaviour
     {
         if (coroutineAllowed)
         {
+            Invoke("makeGrassFall", 0.72f);
             StartCoroutine(GoByTheRoute(routeToGo));
         }
+    }
+
+    void makeGrassFall(){
+        System.Console.WriteLine("asd");
+            fallingGrass.GetComponent<Animator> ().SetBool("isFalling",true);
     }
 
     private IEnumerator GoByTheRoute(int routeNum)
