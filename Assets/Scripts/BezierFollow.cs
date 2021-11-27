@@ -30,9 +30,11 @@ public class BezierFollow : MonoBehaviour
 
    private void OnCollisionEnter2D (Collision2D other)
     {
-        System.Console.WriteLine("asd");
         coroutineAllowed=true;
         objectPosition = player.transform.position;
+    }
+    public void setCoroutineFalse(){
+        coroutineAllowed=false;
     }
     void Update()
     {
@@ -44,7 +46,6 @@ public class BezierFollow : MonoBehaviour
     }
 
     void makeGrassFall(){
-        System.Console.WriteLine("asd");
             fallingGrass.GetComponent<Animator> ().SetBool("isFalling",true);
     }
 
@@ -66,6 +67,7 @@ public class BezierFollow : MonoBehaviour
             player.transform.position = objectPosition;
             yield return new WaitForEndOfFrame();
         }
+        /*
 
         tParam = 0f;
 
@@ -74,9 +76,8 @@ public class BezierFollow : MonoBehaviour
         if(routeToGo > routes.Length - 1)
         {
             routeToGo = 0;
-        }
+        }*/
 
-        coroutineAllowed = true;
 
     }
 }

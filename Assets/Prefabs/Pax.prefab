@@ -4922,6 +4922,7 @@ GameObject:
   - component: {fileID: 2284000642012741294}
   - component: {fileID: 2284000642012741290}
   - component: {fileID: 2284000642012741293}
+  - component: {fileID: 3131143642789598418}
   m_Layer: 6
   m_Name: Pax
   m_TagString: Player
@@ -4985,7 +4986,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b158ba816a7864844baed09ec1d24f5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5063,9 +5064,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particles: {fileID: 2284000643516774623}
+  dashParticles: {fileID: 0}
   coll: {fileID: 2284000642012741295}
   lives: 3
-  livesText: {fileID: 0}
+  livesText: {fileID: 8447315596646789883, guid: 07a9083a4fd22a44aaa904447149c6e7, type: 3}
   _movementAcceleration: 70
   _maxMoveSpeed: 14
   _groundLinearDrag: 50
@@ -5086,6 +5088,12 @@ MonoBehaviour:
   inputTimer: 0
   attackPoint: {fileID: 2284000642104854920}
   attackRange: 1.5
+  dashCounter: 0
+  dashCoolCounter: 0
+  dashSpeed: 2.5
+  dashLength: 0.2
+  dashCooldown: 1
+  ghost: {fileID: 3131143642789598418}
 --- !u!95 &2284000642012741290
 Animator:
   serializedVersion: 3
@@ -5201,3 +5209,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3131143642789598418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245735233992413877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9eef08f9bb1649905c7db18004885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostDelay: 0.05
+  ghost: {fileID: 342537660587458597, guid: 4a59896f6ab87a2439105a1ddc4775d2, type: 3}
+  canMake: 0

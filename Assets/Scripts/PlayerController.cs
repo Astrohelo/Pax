@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem particles;
+    [SerializeField] private ParticleSystem dashParticles;
+
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxMoveSpeed = 12f;
     [SerializeField] private float _groundLinearDrag = 50f;
     [SerializeField] public LayerMask ground;
+    private Vector2 moveInput;
     private float _horizontalDirection;
     private float _verticalDirection;
     private bool _changingDirection => (rb.velocity.x > 0f && _horizontalDirection < 0f) || (rb.velocity.x < 0f && _horizontalDirection > 0f);
@@ -57,6 +60,18 @@ public class PlayerController : MonoBehaviour
     private bool gotInputForAttack;
     [SerializeField]public Transform attackPoint;
     [SerializeField]private float attackRange;
+
+    [Header("Dash Variables")]
+    [SerializeField] private float dashCounter;
+    [SerializeField] private float dashCoolCounter;
+    [SerializeField] private float dashSpeed;
+
+    [SerializeField] private float dashLength;
+    [SerializeField] private float dashCooldown;
+
+
+    public Ghost ghost;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -71,12 +86,15 @@ public class PlayerController : MonoBehaviour
         
         _horizontalDirection = Input.GetAxisRaw("Horizontal");
         _verticalDirection = Input.GetAxisRaw("Vertical");
+        moveInput.x=_horizontalDirection;
+        moveInput.y= _verticalDirection;
+        moveInput.Normalize();
+
         if (Input.GetKeyDown("space")) {
             _jumpBufferCounter = _jumpBufferLength;
-            
-
         }
         else _jumpBufferCounter -= Time.deltaTime;
+        
         if(Input.GetMouseButtonDown(0)&&PlayerPrefs.GetInt("timeIsPaused")==1){
             if(combatEnabled){
                 //attempt combat
@@ -86,11 +104,11 @@ public class PlayerController : MonoBehaviour
         }
         CheckAttacks();
         if(!isAttacking){
-            if (_horizontalDirection < 0)
+            if (moveInput.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
-            if (_horizontalDirection > 0)
+            if (moveInput.x > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
@@ -134,18 +152,47 @@ public class PlayerController : MonoBehaviour
                 coyoteTimeCounter -= Time.deltaTime; 
             }
         }
+
+    ////DASH
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
+            if(dashCoolCounter<=0){
+                 rb.velocity = new Vector2(transform.localScale.x * _maxMoveSpeed*dashSpeed, rb.velocity.y);
+                 dashCounter= dashLength;
+                 ghost.canMake= true;
+            }
+        }
+        //ameddig tart
+        if(dashCounter >0){
+            dashCounter -= Time.deltaTime;
+
+            if(dashCounter <=0){
+                    dashCoolCounter= dashCooldown;
+                    ghost.canMake= false;
+            }
+        }
+        //amennyi idő utána hogy ujra dasheljen
+        if(dashCoolCounter > 0){
+            dashCoolCounter -= Time.deltaTime;
+        }
+    ///// \DASH
     }
     private void FixedUpdate()
     {
         MoveCharacter();
         if (rb.velocity.y==0)
         {
-            ApplyGroundLinearDrag();
+            if(dashCounter<=0){
+                ApplyGroundLinearDrag();
+            }
+            else{
+                ApplyAirLinearDrag();
+            }
             _extraJumpsValue = _extraJumps;
             _hangTimeCounter = _hangTime;
         }
         else
         {
+            
             ApplyAirLinearDrag();
             FallMultiplier();
             _hangTimeCounter -= Time.fixedDeltaTime;
@@ -153,7 +200,6 @@ public class PlayerController : MonoBehaviour
         if (_canJump)
         {
             Jump(Vector2.up);
-            
         }
       
         
@@ -167,10 +213,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void MoveCharacter(){
-        rb.AddForce(new Vector2(_horizontalDirection, 0f) * _movementAcceleration);
+        rb.AddForce(new Vector2(moveInput.x, 0f) * _movementAcceleration);
 
-        if (Mathf.Abs(rb.velocity.x) > _maxMoveSpeed)
+        if (Mathf.Abs(rb.velocity.x) > _maxMoveSpeed &&dashCounter<=0)
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * _maxMoveSpeed, rb.velocity.y);
+        
     }
 
     public void decreaseLife(){
@@ -201,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
 
     private void ApplyGroundLinearDrag(){
-        if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection)
+        if (Mathf.Abs(moveInput.x) < 0.4f || _changingDirection)
         {
             rb.drag = _groundLinearDrag;
         }
@@ -217,7 +264,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FallMultiplier()
     {
-        if (_verticalDirection < 0f)
+        if (moveInput.y < 0f)
         {
             rb.gravityScale = _downMultiplier;
         }
@@ -289,8 +336,12 @@ private void CheckAttacks(){
 }
     private void attackEnded(){
         isAttacking=false;
+        
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }
+
+
+
