@@ -172,7 +172,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   player: {fileID: 0}
-  concreteHealth: 4
+  concreteHealth: 5
   attackPoint: {fileID: 7229536449701055338}
   attackRange: 2.2
 --- !u!1 &7229536449701055337
