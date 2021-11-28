@@ -152,7 +152,7 @@ MonoBehaviour:
     m_Bits: 128
   jumpLength: 7
   jumpHeigth: 10
-  concreteHealth: 2
+  concreteHealth: 3
 --- !u!95 &4265878195658400504
 Animator:
   serializedVersion: 3
