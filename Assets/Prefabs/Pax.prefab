@@ -5092,7 +5092,7 @@ MonoBehaviour:
   dashCoolCounter: 0
   dashSpeed: 2.5
   dashLength: 0.2
-  dashCooldown: 1
+  dashCooldown: 0.6
   ghost: {fileID: 3131143642789598418}
 --- !u!95 &2284000642012741290
 Animator:
