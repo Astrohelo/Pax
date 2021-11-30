@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem particles;
-    [SerializeField] private ParticleSystem dashParticles;
 
 
     private Rigidbody2D rb;
@@ -308,9 +307,11 @@ public class PlayerController : MonoBehaviour
     //// ATTACK FUNCTIONS
     private void Attack(){
         Collider2D[] detectedEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        SoundManager.PlaySound("playerAttack");
         foreach( Collider2D enemy in detectedEnemies) {
             var script = enemy.gameObject.GetComponent<Enemy>();
             script.gotHit();
+
         }
     }
      void OnDrawGizmosSelected(){
