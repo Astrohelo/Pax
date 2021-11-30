@@ -80,7 +80,6 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
         lives=PlayerPrefs.GetInt("playerMaxHealth");
         livesText.text=lives.ToString();
-        Debug.Log("lives"+lives);
     }
 
     // Update is called once per frame
