@@ -27,9 +27,11 @@ public class EyeBallController : Enemy
     public float cooldown = 2f; //seconds
     private float lastAttackedAt = -9999f;
     [SerializeField] private laserController laser;
+    [SerializeField] private int concreteHealth;
 
     void Start()
     {
+        health=concreteHealth;
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -58,7 +60,7 @@ public class EyeBallController : Enemy
         }
 
         //Starts to move
-        if (activated == false && Vector2.Distance(rb.position, targetPlayer.position) < 10)
+        if (activated == false && Vector2.Distance(rb.position, targetPlayer.position) < 8)
         {
             anim.SetBool("isMove", true);
             anim.SetBool("isDetect", false);
@@ -66,6 +68,13 @@ public class EyeBallController : Enemy
 
             activated = true;
             InvokeRepeating("UpdatePath", 0f, 0.5f);
+        }
+        if (activated == true && Vector2.Distance(rb.position, targetPlayer.position) > 25)
+        {
+            activated=false;
+            anim.SetBool("isMove", false);
+            anim.SetBool("isDetect", false);
+            anim.SetBool("isIdle", true);
         }
 
         //Attack
