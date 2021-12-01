@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     public void gotHit()
     {
         health--;
+        Instantiate(effect, transform.position, Quaternion.identity);
         if (health == 0)
         {
             Death();
