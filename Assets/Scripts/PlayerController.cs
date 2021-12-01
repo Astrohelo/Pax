@@ -246,6 +246,16 @@ public class PlayerController : MonoBehaviour
         {
             decreaseLife();
         }
+
+
+        /* push the character on hit
+            var magnitude = 2500;
+
+            var force = transform.position - other.transform.position;
+
+            force.Normalize();
+            rb.AddForce(-force * magnitude);*/
+
     }
 
     private void MoveCharacter()
@@ -352,6 +362,7 @@ public class PlayerController : MonoBehaviour
         {
             var script = enemy.gameObject.GetComponent<Enemy>();
             script.gotHit();
+
 
         }
     }
