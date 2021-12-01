@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     //protected Animator anim;
     //protected Rigidbody2D rb;
     protected int health;
+    public GameObject effect;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -16,14 +17,17 @@ public class Enemy : MonoBehaviour
         //rb = GetComponent<Rigidbody2D>();
     }
 
-    public void gotHit(){
+    public void gotHit()
+    {
         health--;
-        if (health==0){
+        if (health == 0)
+        {
             Death();
         }
     }
     public void Death()
     {
+        Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }

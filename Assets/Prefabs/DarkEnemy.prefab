@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cd2265e818b439a667c39c9c5299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 3997810339337907956, guid: 059c4010938eda245bb81f071d40cb14, type: 3}
   LeftEnd: -4.9
   RightEnd: 24.5
   speed: 10

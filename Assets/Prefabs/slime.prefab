@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abf985d71d40a34a8fe09aa03568683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 3767045331787776281, guid: d58d915885940464682fb0cc938f4de6, type: 3}
   leftEnd: 0
   rightEnd: 0
   ground:
