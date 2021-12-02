@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 873380584}
   m_Layer: 8
   m_Name: Boss
-  m_TagString: Slime
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -655,8 +655,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   maxhp: 90
   healthbar: {fileID: 1548411166}
-  jumpLength: 50
-  jumpHeigth: 23
+  jumpLength: 500
+  jumpHeigth: 20
   dead: 0
 --- !u!61 &873380584
 BoxCollider2D:
@@ -704,7 +704,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!224 &1042926752 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6950506935060375241, guid: bfd664f11925e5040aed62c593b642a5, type: 3}

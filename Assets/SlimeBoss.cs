@@ -18,8 +18,8 @@ public class SlimeBoss : Enemy
     public Slider healthbar;
     private bool facingLeft;
 
-    [SerializeField] private float jumpLength = 10f;
-    [SerializeField] private float jumpHeigth = 15f;
+    [SerializeField] private float jumpLength;
+    [SerializeField] private float jumpHeigth;
 
     public bool dead = false;
 
