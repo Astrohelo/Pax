@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
             Death();
         }
     }
-    public void Death()
+    public virtual void Death()
     {
         Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(this.gameObject);

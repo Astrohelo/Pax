@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8108425685303884509, guid: 061a449e39597f340b388b0905df5a7d, type: 3}
       propertyPath: m_Name
-      value: slime bossVariant
+      value: valami
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 061a449e39597f340b388b0905df5a7d, type: 3}

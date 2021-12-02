@@ -5,51 +5,37 @@ using UnityEngine;
 public class Stage1Behavior : StateMachineBehaviour
 {
 
-    public GameObject myPrefab;
-    private int slime_int = 3;
+    public GameObject myPre1;
+    public GameObject myPre2;
+    public GameObject myPre3;
     private GameObject boss;
     private SlimeBoss script;
-
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        script = animator.GetComponent<SlimeBoss>();
-       script.hp -=30;
+
+       Instantiate(myPre1, new Vector3(9.92f, 6.92f, 0),Quaternion.identity);
+       Instantiate(myPre2, new Vector3(7.37f, 6.88f, 0),Quaternion.identity);
+       Instantiate(myPre3, new Vector3(13.28f, 6.64f, 0),Quaternion.identity);
+
        
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(slime_int==3){
-            Instantiate(myPrefab, new Vector3(9.92f, 6.92f, 0),Quaternion.identity);
-            slime_int--;
-        } else if(slime_int==2){
-            Instantiate(myPrefab, new Vector3(7.37f, 6.88f, 0),Quaternion.identity);
-            slime_int--;
-        } else if(slime_int==1){
-            Instantiate(myPrefab, new Vector3(13.28f, 6.64f, 0),Quaternion.identity);
-            slime_int--;
-        }
+        GameObject[] slimes = GameObject.FindGameObjectsWithTag("Slime");  
 
 
-        animator.SetInteger("hp",60);
-        animator.SetBool("stage1", false);
+        script.hp = 9 - (3-slimes.Length);
+        Debug.Log(slimes.Length);
+
+        if(slimes.Length==0){
+            animator.SetTrigger("falling");
+        } 
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       slime_int = 3;
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

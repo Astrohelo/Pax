@@ -4,16 +4,31 @@ using UnityEngine;
 
 public class IdleBehavior : StateMachineBehaviour
 {
+
+    public float timer;
+    public float minTime;
+    public float maxTime;
+    private SlimeBoss boss;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+       timer = Random.Range(minTime,maxTime);
+       boss = animator.GetComponent<SlimeBoss>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       animator.SetBool("stage1", true);
+       if(timer <= 0){
+           animator.SetTrigger("jump");
+       } else{
+           timer -= Time.deltaTime;
+       }
+
+       if(boss.dead){
+           animator.SetTrigger("dead");
+       }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
