@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -275,9 +276,10 @@ public class PlayerController : MonoBehaviour
             lives--;
             if (lives == 0)
             {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 //respawnolom ebben a poziban ez csak hard coded most
-                transform.position = new Vector2(-34.86f, 2);
-                lives = PlayerPrefs.GetInt("playerMaxHealth", 3);
+                //transform.position = new Vector2(-34.86f, 2);
+                //lives = PlayerPrefs.GetInt("playerMaxHealth", 3);
             }
             livesText.text = lives.ToString();
             //átlátszó lesz

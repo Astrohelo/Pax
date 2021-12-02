@@ -20,27 +20,30 @@ public class SlimeBoss : Enemy
 
     [SerializeField] private float jumpLength = 10f;
     [SerializeField] private float jumpHeigth = 15f;
-    
+
     public bool dead = false;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
         hp = maxhp;
-        health=maxhp;
+        health = maxhp;
         facingLeft = false;
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
-    void Update() 
+    void Update()
     {
-        if(hp<health){
-            health=hp;
-        } else if(health<hp){
-            hp=health;
+        if (hp < health)
+        {
+            health = hp;
+        }
+        else if (health < hp)
+        {
+            hp = health;
         }
         healthbar.value = health;
     }
@@ -48,51 +51,66 @@ public class SlimeBoss : Enemy
 
     public void Move()
     {
-        if (facingLeft) {
+        if (facingLeft)
+        {
 
-            if (transform.position.x > leftEnd) {
+            if (transform.position.x > leftEnd)
+            {
 
-                if (transform.localScale.x != 1) {
-                    
+                if (transform.localScale.x != 1)
+                {
+
                     transform.localScale = new Vector3(1, 1, 1);
                 }
 
-                if (coll.IsTouchingLayers(ground)) {
+                if (coll.IsTouchingLayers(ground))
+                {
 
                     rb.velocity = new Vector2(-jumpLength, jumpHeigth);
                 }
 
             }
-            else {
+            else
+            {
 
                 facingLeft = false;
             }
-        } else {
-            if (transform.position.x < rightEnd) {
+        }
+        else
+        {
+            if (transform.position.x < rightEnd)
+            {
 
-                if (transform.localScale.x != -1) {
+                if (transform.localScale.x != -1)
+                {
                     transform.localScale = new Vector3(-1, 1, 1);
                 }
 
-                if (coll.IsTouchingLayers(ground)) {
+                if (coll.IsTouchingLayers(ground))
+                {
                     rb.velocity = new Vector2(jumpLength, jumpHeigth);
                 }
 
-            } else {
+            }
+            else
+            {
 
                 facingLeft = true;
             }
         }
     }
 
-    public override void Death() {
-        
+    public override void Death()
+    {
+
         healthbar.value = 0;
         dead = true;
 
     }
 
-    public void _Destroy() {
+
+    public void _Destroy()
+    {
         Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
