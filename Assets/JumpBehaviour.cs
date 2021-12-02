@@ -32,7 +32,7 @@ public class JumpBehaviour : StateMachineBehaviour
        }
        
        Vector2 target = new Vector2(playerPos.position.x, animator.transform.position.y);
-       animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed);
+       animator.transform.position = Vector2.MoveTowards(animator.transform.position, target, speed*4);
 
        if(boss.dead){
            animator.SetTrigger("dead");

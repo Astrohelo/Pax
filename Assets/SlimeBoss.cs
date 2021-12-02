@@ -46,6 +46,10 @@ public class SlimeBoss : Enemy
             hp = health;
         }
         healthbar.value = health;
+        if(dead&&coll.IsTouchingLayers(ground)){
+            coll.isTrigger = true;
+            rb.gravityScale = 0f;
+        }
     }
 
 
@@ -94,7 +98,6 @@ public class SlimeBoss : Enemy
             }
             else
             {
-
                 facingLeft = true;
             }
         }
@@ -106,6 +109,10 @@ public class SlimeBoss : Enemy
         healthbar.value = 0;
         dead = true;
 
+    }
+    
+    public float getHealthBar(){
+        return healthbar.value;
     }
 
 
