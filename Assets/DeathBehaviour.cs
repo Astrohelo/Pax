@@ -20,7 +20,8 @@ public class DeathBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        script._Destroy();
+        //we still need to access the boss health
+        //script._Destroy();
     }
 
 }
